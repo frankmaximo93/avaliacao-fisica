@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaxComp - Avaliação Física Final</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="../Imagens/avatar site.ico" type="image/x-icon" sizes="512x512">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header>
+        <h1>
+            <img src="../Imagens/Franklim_logo_Avatar-01.png" alt="Logo do site" style="height: 150px; vertical-align: middle;">
+            <a classname="header__link" href="./index.html">
+                App MaxComp
+            </a>
+        </h1>
+    </header>
+    <main>
+        <section id="home" class="centered">
+            <h2>Início</h2>
+            <p>Aplicativo de Análise de Composição Corporal</p>
+        </section>
+        <section id="avaliacao-form">
+            <div class="card">
+                <nav id="tab-nav">
+                    <ul>
+                        <li data-tab="dados-aluno" class="tab-active">Dados do Aluno</li>
+                        <li data-tab="peso-altura">Peso e Altura</li>
+                        <li data-tab="dobras">Dobras</li>
+                        <li data-tab="perimetria">Perimetria</li>
+                        <li data-tab="rml">RML</li>
+                        <li data-tab="metas">Meta / Recomendações</li>
+                    </ul>
+                </nav>
+                <form id="measurements-form">
+                    <div id="tab-content-dados-aluno" class="tab-content tab-visible">
+                        <fieldset>
+                            <legend>Dados do Aluno</legend>
+                            <label for="nome">
+                                Nome Completo do Avaliado:
+                                <input type="text" id="nome" placeholder="Ex: João da Silva" required>
+                            </label>
+                            <div class="form-group">
+                                <label for="idade">
+                                    Idade (anos):
+                                    <input type="number" id="idade" placeholder="Ex: 30" required>
+                                </label>
+                                <label for="sexo">
+                                    Sexo:
+                                    <select id="sexo" required>
+                                        <option value="M">Masculino</option>
+                                        <option value="F">Feminino</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </fieldset>
+                        <div class="tab-button-container">
+                            <button type="button" class="btn btn-tab-save" data-tab-save="dados-aluno">Salvar Dados</button>
+                        </div>
+                    </div>
+
+                    <div id="tab-content-peso-altura" class="tab-content">
+                        <fieldset>
+                            <legend>Peso e Altura</legend>
+                            <div class="form-group">
+                                <label for="peso">
+                                    Peso Corporal (em kg):
+                                    <input type="number" id="peso" placeholder="Ex: 75.5" required>
+                                </label>
+                                <label for="altura">
+                                    Altura (em centímetros):
+                                    <input type="number" id="altura" placeholder="Ex: 178" required>
+                                </label>
+                            </div>
+                        </fieldset>
+                        <div class="tab-button-container">
+                            <button type="button" class="btn btn-tab-save" data-tab-save="peso-altura">Salvar Dados</button>
+                        </div>
+                    </div>
+
+                    <div id="tab-content-dobras" class="tab-content">
+                        <fieldset>
+                            <legend>Dobras Cutâneas</legend>
+                            <div class="form-group">
+                                <label for="protocolo">
+                                    Protocolo de Dobras Cutâneas:
+                                    <select id="protocolo" required style="width: 200px;">
+                                        <option value="pollock3">Pollock 3 Dobras</option>
+                                        <option value="pollock7">Pollock 7 Dobras</option>
+                                        <option value="weltman">Weltman para Obesos</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div id="dobras-campos" class="form-group"></div>
+                        </fieldset>
+                        <div class="tab-button-container">
+                            <button type="button" class="btn btn-tab-save" data-tab-save="dobras">Salvar Dados</button>
+                        </div>
+                    </div>
+
+                    <div id="tab-content-perimetria" class="tab-content">
+                        <fieldset>
+                            <legend>Perimetria (Medidas em cm)</legend>
+                            <h3>Perimetria</h3>
+                            <div class="form-group">
+                                <label for="ombro">
+                                    Ombro (cm):
+                                    <input type="number" id="ombro" placeholder="Ex: 120" required>
+                                </label>
+                                <label for="peito">
+                                    Peito (cm):
+                                    <input type="number" id="peito" placeholder="Ex: 95" required>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="braco-direito">
+                                    Braço Direito (cm):
+                                    <input type="number" id="braco-direito" placeholder="Ex: 35" required>
+                                </label>
+                                <label for="braco-esquerdo">
+                                    Braço Esquerdo (cm):
+                                    <input type="number" id="braco-esquerdo" placeholder="Ex: 34" required>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="cintura">
+                                    Cintura (cm):
+                                    <input type="number" id="cintura" placeholder="Ex: 80" required>
+                                </label>
+                                <label for="abdomen">
+                                    Abdômen (cm):
+                                    <input type="number" id="abdomen" placeholder="Ex: 85" required>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="quadril">
+                                    Quadril (cm):
+                                    <input type="number" id="quadril" placeholder="Ex: 98" required>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="coxa-direita">
+                                    Coxa Direita (cm):
+                                    <input type="number" id="coxa-direita" placeholder="Ex: 60" required>
+                                </label>
+                                <label for="coxa-esquerda">
+                                    Coxa Esquerda (cm):
+                                    <input type="number" id="coxa-esquerda" placeholder="Ex: 59" required>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="panturrilha-direita">
+                                    Panturrilha Direita (cm):
+                                    <input type="number" id="panturrilha-direita" placeholder="Ex: 40" required>
+                                </label>
+                                <label for="panturrilha-esquerda">
+                                    Panturrilha Esquerda (cm):
+                                    <input type="number" id="panturrilha-esquerda" placeholder="Ex: 39" required>
+                                </label>
+                            </div>
+                        </fieldset>
+                        <div class="tab-button-container">
+                            <button type="button" class="btn btn-tab-save" data-tab-save="perimetria">Salvar Dados</button>
+                        </div>
+                    </div>
+
+                    <div id="tab-content-rml" class="tab-content">
+                        <fieldset>
+                            <legend>Relação Massa Magra/Gorda (RML)</legend>
+                            <div id="resultados-rml-container">
+                                <div class="resultado-composicao-rml">
+                                    <h3>Composição Corporal</h3>
+                                    <canvas id="composicaoCorporalChart-tab" width="200" height="200"></canvas>
+                                    <ul id="lista-composicao-corporal-tab">
+                                        <li>Gordura: <span id="massa-gorda-tab"></span> kg</li>
+                                        <li>Músculos: <span id="massa-magra-tab"></span> kg</li>
+                                        <li>Resíduos: <span id="massa-residual-tab"></span> kg</li>
+                                        <li>Ossos: <span id="massa-ossea-tab"></span> kg</li>
+                                    </ul>
+                                    <p>Percentual de Gordura: <strong id="percentual-gordura-tab"></strong>%</p>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="tab-button-container">
+                            <button type="button" class="btn btn-tab-save" data-tab-save="rml">Recalcular RML e Salvar Dados</button>
+                        </div>
+                    </div>
+
+                    <div id="tab-content-metas" class="tab-content">
+                        <fieldset>
+                            <legend>Metas e Recomendações</legend>
+                            <label for="metas-text">Metas para o Avaliado:</label>
+                            <textarea id="metas-text" rows="5" placeholder="Digite aqui as metas e objetivos para o avaliado..."></textarea>
+                            <label for="recomendacoes-text">Recomendações:</label>
+                            <textarea id="recomendacoes-text" rows="5" placeholder="Digite aqui as recomendações de treino, dieta, etc...."></textarea>
+                        </fieldset>
+                        <div class="tab-button-container">
+                            <button type="button" class="btn btn-tab-save" data-tab-save="metas">Salvar Dados</button>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <button type="button" class="btn btn-primary" id="exportar-pdf-form">Exportar PDF Avaliação</button>
+                        <button type="button" class="btn btn-secondary" id="limpar-campos">Limpar Campos</button>
+                        <button type="button" class="btn btn-primary" id="resultado-avaliacao-button">Mostrar Resultado Avaliação</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section id="resultados" style="display: none;">
+            <h2>Resultados da Avaliação Completa</h2>
+            <div id="resultados-content">
+                <div class="resultado-imc">
+                    <h3>IMC</h3>
+                    <p id="resultado-imc-valor"></p>
+                    <p id="resultado-imc-classificacao" class="classification"></p>
+                </div>
+                <div class="resultado-composicao">
+                    <h3>Composição Corporal</h3>
+                    <canvas id="composicaoCorporalChart" width="200" height="200"></canvas>
+                    <ul id="lista-composicao-corporal">
+                        <li>Gordura: <span id="massa-gorda"></span> kg</li>
+                        <li>Músculos: <span id="massa-magra"></span> kg</li>
+                        <li>Resíduos: <span id="massa-residual"></span> kg</li>
+                        <li>Ossos: <span id="massa-ossea"></span> kg</li>
+                    </ul>
+                    <p>Percentual de Gordura: <strong id="percentual-gordura"></strong>%</p>
+                </div>
+                <div class="resultado-risco-cardiovascular">
+                    <h3>Risco Cardiovascular</h3>
+                    <p>Circunferência abdominal: <span id="circunferencia-abdominal"></span> cm</p>
+                    <p id="classificacao-risco-cardiovascular" class="classification"></p>
+                    <p id="alerta-risco-cardiovascular" class="alert"></p>
+                </div>
+            </div>
+            <div class="button-group">
+                <button id="exportar-pdf" class="btn btn-primary">
+                    <i class="fas fa-file-pdf"></i> Exportar PDF (Resultados)</button>
+                <button id="export-csv" class="btn btn-primary">
+                    <i class="fas fa-file-csv"></i> Exportar CSV</button>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>© 2025 Análise de Composição Corporal</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
