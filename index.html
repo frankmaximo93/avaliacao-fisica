@@ -42,16 +42,16 @@
                             <legend>Dados do Aluno</legend>
                             <label for="nome">
                                 Nome Completo do Avaliado:
-                                <input type="text" id="nome" placeholder="Ex: João da Silva" required>
+                                <input type="text" id="nome" name="nome" placeholder="Ex: João da Silva" required>
                             </label>
                             <div class="form-group">
                                 <label for="idade">
                                     Idade (anos):
-                                    <input type="number" id="idade" placeholder="Ex: 30" required>
+                                    <input type="number" id="idade" name="idade" placeholder="Ex: 30" required>
                                 </label>
                                 <label for="sexo">
                                     Sexo:
-                                    <select id="sexo" required>
+                                    <select id="sexo" name="sexo" required>
                                         <option value="M">Masculino</option>
                                         <option value="F">Feminino</option>
                                     </select>
@@ -69,11 +69,11 @@
                             <div class="form-group">
                                 <label for="peso">
                                     Peso Corporal (em kg):
-                                    <input type="number" id="peso" placeholder="Ex: 75.5" required>
+                                    <input type="number" id="peso" name="peso" placeholder="Ex: 75.5" required>
                                 </label>
                                 <label for="altura">
                                     Altura (em centímetros):
-                                    <input type="number" id="altura" placeholder="Ex: 178" required>
+                                    <input type="number" id="altura" name="altura" placeholder="Ex: 178" required>
                                 </label>
                             </div>
                         </fieldset>
@@ -88,7 +88,7 @@
                             <div class="form-group">
                                 <label for="protocolo">
                                     Protocolo de Dobras Cutâneas:
-                                    <select id="protocolo" required style="width: 200px;">
+                                    <select id="protocolo" name="protocolo" required style="width: 200px;">
                                         <option value="pollock3">Pollock 3 Dobras</option>
                                         <option value="pollock7">Pollock 7 Dobras</option>
                                         <option value="weltman">Weltman para Obesos</option>
@@ -109,57 +109,57 @@
                             <div class="form-group">
                                 <label for="ombro">
                                     Ombro (cm):
-                                    <input type="number" id="ombro" placeholder="Ex: 120" required>
+                                    <input type="number" id="ombro" name="ombro" placeholder="Ex: 120" required>
                                 </label>
                                 <label for="peito">
                                     Peito (cm):
-                                    <input type="number" id="peito" placeholder="Ex: 95" required>
+                                    <input type="number" id="peito" name="peito" placeholder="Ex: 95" required>
                                 </label>
                             </div>
                             <div class="form-group">
                                 <label for="braco-direito">
                                     Braço Direito (cm):
-                                    <input type="number" id="braco-direito" placeholder="Ex: 35" required>
+                                    <input type="number" id="braco-direito" name="braco-direito" placeholder="Ex: 35" required>
                                 </label>
                                 <label for="braco-esquerdo">
                                     Braço Esquerdo (cm):
-                                    <input type="number" id="braco-esquerdo" placeholder="Ex: 34" required>
+                                    <input type="number" id="braco-esquerdo" name="braco-esquerdo" placeholder="Ex: 34" required>
                                 </label>
                             </div>
                             <div class="form-group">
                                 <label for="cintura">
                                     Cintura (cm):
-                                    <input type="number" id="cintura" placeholder="Ex: 80" required>
+                                    <input type="number" id="cintura" name="cintura" placeholder="Ex: 80" required>
                                 </label>
                                 <label for="abdomen">
                                     Abdômen (cm):
-                                    <input type="number" id="abdomen" placeholder="Ex: 85" required>
+                                    <input type="number" id="abdomen" name="abdomen" placeholder="Ex: 85" required>
                                 </label>
                             </div>
                             <div class="form-group">
                                 <label for="quadril">
                                     Quadril (cm):
-                                    <input type="number" id="quadril" placeholder="Ex: 98" required>
+                                    <input type="number" id="quadril" name="quadril" placeholder="Ex: 98" required>
                                 </label>
                             </div>
                             <div class="form-group">
                                 <label for="coxa-direita">
                                     Coxa Direita (cm):
-                                    <input type="number" id="coxa-direita" placeholder="Ex: 60" required>
+                                    <input type="number" id="coxa-direita" name="coxa-direita" placeholder="Ex: 60" required>
                                 </label>
                                 <label for="coxa-esquerda">
                                     Coxa Esquerda (cm):
-                                    <input type="number" id="coxa-esquerda" placeholder="Ex: 59" required>
+                                    <input type="number" id="coxa-esquerda" name="coxa-esquerda" placeholder="Ex: 59" required>
                                 </label>
                             </div>
                             <div class="form-group">
                                 <label for="panturrilha-direita">
                                     Panturrilha Direita (cm):
-                                    <input type="number" id="panturrilha-direita" placeholder="Ex: 40" required>
+                                    <input type="number" id="panturrilha-direita" name="panturrilha-direita" placeholder="Ex: 40" required>
                                 </label>
                                 <label for="panturrilha-esquerda">
                                     Panturrilha Esquerda (cm):
-                                    <input type="number" id="panturrilha-esquerda" placeholder="Ex: 39" required>
+                                    <input type="number" id="panturrilha-esquerda" name="panturrilha-esquerda" placeholder="Ex: 39" required>
                                 </label>
                             </div>
                         </fieldset>
@@ -194,9 +194,9 @@
                         <fieldset>
                             <legend>Metas e Recomendações</legend>
                             <label for="metas-text">Metas para o Avaliado:</label>
-                            <textarea id="metas-text" rows="5" placeholder="Digite aqui as metas e objetivos para o avaliado..."></textarea>
+                            <textarea id="metas-text" name="metas-text" rows="5" placeholder="Digite aqui as metas e objetivos para o avaliado..."></textarea>
                             <label for="recomendacoes-text">Recomendações:</label>
-                            <textarea id="recomendacoes-text" rows="5" placeholder="Digite aqui as recomendações de treino, dieta, etc...."></textarea>
+                            <textarea id="recomendacoes-text" name="recomendacoes-text" rows="5" placeholder="Digite aqui as recomendações de treino, dieta, etc...."></textarea>
                         </fieldset>
                         <div class="tab-button-container">
                             <button type="button" class="btn btn-tab-save" data-tab-save="metas">Salvar Dados</button>

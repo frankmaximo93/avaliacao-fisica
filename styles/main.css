@@ -218,6 +218,11 @@ h3 {
     background-color: #f9f9f9; /* Cor de fundo mais clara */
     max-width: 700px; /* Reduzi um pouco a largura máxima do modal */
     margin: 0 auto;
+    width: 85%; /* Ajustei a largura do modal */
+    max-width: 750px; /* Ajustei max-width do modal */
+    height: auto;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .swal2-popup .swal2-html-container {
@@ -225,15 +230,6 @@ h3 {
     flex-direction: column; /* Organiza em coluna */
     align-items: center; /* Centraliza horizontalmente */
     width: 100%; /* Ocupa toda a largura do modal */
-}
-
-/* Ensure SweetAlert2 modal is rectangular and horizontal */
-.swal2-popup {
-    width: 85%; /* Ajustei a largura do modal */
-    max-width: 750px; /* Ajustei max-width do modal */
-    height: auto;
-    max-height: 90vh;
-    overflow-y: auto;
 }
 
 .header__link:hover {
@@ -294,7 +290,7 @@ a {
 }
 
 /* Ajuste no tamanho do canvas do gráfico para ocupar menos espaço */
-#composicaoCorporalChart, #composicaoCorporalChart-tab {
+#composicaoCorporalChart, #composicaoCorporalChart-tab, #composicaoCorporalChart-modal {
     max-height: 150px;
     width: auto;
     margin: 0 auto;

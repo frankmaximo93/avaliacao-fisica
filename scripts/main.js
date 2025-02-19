@@ -71,6 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const input = document.createElement('input');
         input.type = 'number';
         input.id = `dobra-${nome.toLowerCase()}`;
+        // ADICIONANDO O ATRIBUTO name DINAMICAMENTE
+        input.name = `dobra-${nome.toLowerCase()}`;
         input.required = true;
         label.appendChild(input);
         dobrasCampos.appendChild(label);
@@ -176,7 +178,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function atualizarGraficoDonutModal(canvasId, massaGorda, percentualGordura) {
-        const ctxModal = document.getElementById(canvasId).getContext('2d');
+        const canvas = document.getElementById(canvasId);
+        const ctxModal = canvas.getContext('2d');
+
+        // Verifica se já existe um gráfico no canvas e destrói se existir
+        if (Chart.getChart(canvasId)) { // Chart.getChart verifica se há um gráfico no canvas
+            Chart.getChart(canvasId).destroy(); // Destrói o gráfico existente
+        }
+
         new Chart(ctxModal, {
             type: 'doughnut',
             data: {
@@ -217,14 +226,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function atualizarGrafico(canvasId, massaGorda, massaMagra, massaResidual, massaOssea) {
-        const ctx = document.getElementById(canvasId).getContext('2d');
+        const canvas = document.getElementById(canvasId);
+        const ctx = canvas.getContext('2d');
+
+        // Verifica se já existe um gráfico no canvas e destrói se existir
+        if (Chart.getChart(canvasId)) { // Chart.getChart verifica se há um gráfico no canvas
+            Chart.getChart(canvasId).destroy(); // Destrói o gráfico existente
+        }
+
         new Chart(ctx, {
-            type: 'pie',
+            type: 'pie', // ALTERADO PARA PIE CHART (GRÁFICO DE PIZZA)
             data: {
                 labels: ['Gordura', 'Músculos', 'Resíduos', 'Ossos'],
                 datasets: [{
                     data: [massaGorda, massaMagra, massaResidual, massaOssea],
-                    backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0']
+                    backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0'] // Cores para o gráfico
                 }]
             },
             options: {
@@ -245,6 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
 
     function calcularPercentualGordura(protocolo, sexo, idade) {
         const dobras = Array.from(dobrasCampos.querySelectorAll('input')).map(input => parseFloat(input.value));
@@ -279,17 +296,33 @@ document.addEventListener('DOMContentLoaded', () => {
     function exportarParaPdf(exportType) {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF('p', 'mm', 'a4');
-        doc.setFontSize(14);
+        doc.setFont('helvetica', 'normal'); // Define a fonte padrão
+
+        // Cores para o PDF
+        const corPrimaria = '#28a745'; // Verde primário
+        const corSecundaria = '#333333'; // Cinza escuro para texto geral
+        const corTituloSecao = corPrimaria; // Verde para títulos de seção
+        const corTextoSecao = corSecundaria; // Cinza para texto de seção
 
         let yPosition = 20;
 
+        // Função para adicionar um título formatado
+        function adicionarTitulo(texto, tamanho, cor, estilo = 'bold') {
+            doc.setFontSize(tamanho);
+            doc.setFont('helvetica', estilo);
+            doc.setTextColor(cor);
+            doc.text(texto, 20, yPosition);
+            yPosition += tamanho * 0.353 + 5; // Ajuste para espaçamento baseado no tamanho da fonte
+        }
+
+        // Função para adicionar seção de texto formatada
         function adicionarSecaoTexto(titulo, conteudo) {
-            doc.setFontSize(16);
-            doc.setFont('helvetica', 'bold');
-            doc.text(titulo, 20, yPosition);
-            yPosition += 7;
+            adicionarTitulo(titulo, 16, corTituloSecao, 'bold'); // Título da seção em verde
+
             doc.setFontSize(12);
             doc.setFont('helvetica', 'normal');
+            doc.setTextColor(corTextoSecao); // Texto da seção em cinza
+
             if (typeof conteudo === 'string') {
                 const linhas = doc.splitTextToSize(conteudo, 170);
                 linhas.forEach(linha => {
@@ -304,14 +337,16 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (typeof conteudo === 'object' && conteudo !== null) {
                 for (const key in conteudo) {
                     if (conteudo.hasOwnProperty(key)) {
-                        doc.text(`${key}: ${key}: ${conteudo[key]}`, 25, yPosition); // Correção aqui: repetia "key:"
+                        doc.text(`${key}: ${conteudo[key]}`, 25, yPosition);
                         yPosition += 5;
                     }
                 }
             }
-
-            yPosition += 10;
+            yPosition += 10; // Espaçamento após a seção
         }
+
+
+        adicionarTitulo('Relatório de Avaliação Física - MaxComp App', 20, corPrimaria, 'bold'); // Título principal em verde e maior
 
         const dadosAluno = {
             "Nome": nomeInput.value,
@@ -373,11 +408,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const canvasRml = document.getElementById('composicaoCorporalChart-tab');
-        const imgDataRml = canvasRml.toDataURL('image/png');
-        doc.addImage(imgDataRml, 'PNG', 20, yPosition, 60, 60);
+        if (canvasRml) {
+            // Adiciona um atraso de 200ms (0.2 segundos) antes de capturar o gráfico
+            setTimeout(() => {
+                const imgDataRml = canvasRml.toDataURL('image/png');
+                doc.addImage(imgDataRml, 'PNG', 20, yPosition, 60, 60);
+                yPosition += 65; // Ajuste a posição Y após a imagem
 
-        const nomeArquivo = `relatorio-avaliacao-fisica-${nomeInput.value.replace(/\s/g, '_')}.pdf`;
-        doc.save(nomeArquivo);
+                const nomeArquivo = `relatorio-avaliacao-fisica-${nomeInput.value.replace(/\s/g, '_')}.pdf`;
+                doc.save(nomeArquivo);
+
+            }, 200); // 200 milissegundos de atraso (0.2 segundos)
+        } else {
+            console.error('Canvas do gráfico RML não encontrado!');
+        }
     }
 
     exportarCsvButton.addEventListener('click', () => {
@@ -477,7 +521,7 @@ document.addEventListener('DOMContentLoaded', () => {
             background: '#ffffff',
             showConfirmButton: false,
             showCloseButton: true,
-            closeButtonArialLabel: 'Fechar este popup',
+            // closeButtonArialLabel: 'Fechar este popup',  <-- REMOVIDO OU COMENTADO
             didOpen: () => {
                 atualizarGraficoDonutModal('composicaoCorporalChart-modal', document.getElementById('massa-gorda-tab').textContent, document.getElementById('percentual-gordura-tab').textContent);
                 document.getElementById('percentual-gordura-modal').textContent = document.getElementById('percentual-gordura-tab').textContent;
