@@ -7,9 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const sexoInput = document.getElementById('sexo');
     const protocoloInput = document.getElementById('protocolo');
     const dobrasCampos = document.getElementById('dobras-campos');
-    const resultadosContainer = document.getElementById('resultados-container');
+    const resultadosContainer = document.getElementById('resultados-container'); // Não está sendo usado, pode remover se quiser
     const exportarPdfButton = document.getElementById('exportar-pdf');
-    const exportarCsvButton = document.getElementById('export-csv'); // Corrigir o ID aqui
+    const exportarCsvButton = document.getElementById('export-csv');
     const limparCamposButton = document.getElementById('limpar-campos');
     const resultadoAvaliacaoButton = document.getElementById('resultado-avaliacao-button');
     const exportarPdfFormButton = document.getElementById('exportar-pdf-form');
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Elementos das abas
     const tabNav = document.getElementById('tab-nav');
     const tabContents = document.querySelectorAll('.tab-content');
-    const tabRmlContent = document.getElementById('tab-content-rml');
+    const tabRmlContent = document.getElementById('tab-content-rml'); // Não está sendo usado diretamente, pode remover se quiser
 
     // Inicializa a aba ativa (Dados do Aluno por padrão)
     let activeTab = 'dados-aluno';
@@ -132,10 +132,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Classificação de risco cardiovascular
         let classificacaoRisco;
-        if (sexo === 'M') {
-            classificacaoRisco = (parseFloat(document.getElementById('abdomen').value) > 102) ? 'Risco aumentado' : 'Risco baixo';
+        const abdomenInput = document.getElementById('abdomen'); // Garante que o elemento existe
+        const abdomenValue = abdomenInput ? parseFloat(abdomenInput.value) : NaN; // Pega o valor ou NaN se não existir
+
+        if (isNaN(abdomenValue)) {
+            classificacaoRisco = 'Circunferência Abdominal não informada';
+        } else if (sexo === 'M') {
+            classificacaoRisco = (abdomenValue > 102) ? 'Risco aumentado' : 'Risco baixo';
         } else {
-            classificacaoRisco = (parseFloat(document.getElementById('abdomen').value) > 88) ? 'Risco aumentado' : 'Risco baixo';
+            classificacaoRisco = (abdomenValue > 88) ? 'Risco aumentado' : 'Risco baixo';
         }
 
         // Atualizar os resultados na página (seção RESULTADOS COMPLETA)
@@ -146,7 +151,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('massa-magra').textContent = massaMagra;
         document.getElementById('massa-ossea').textContent = massaOssea;
         document.getElementById('massa-residual').textContent = massaResidual;
-        document.getElementById('circunferencia-abdominal').textContent = document.getElementById('abdomen').value;
+        const circunferenciaAbdominalElement = document.getElementById('circunferencia-abdominal'); // Garante que o elemento existe
+        if (circunferenciaAbdominalElement) {
+            circunferenciaAbdominalElement.textContent = isNaN(abdomenValue) ? 'Não Informada' : abdomenValue.toFixed(1);
+        }
         document.getElementById('classificacao-risco-cardiovascular').textContent = classificacaoRisco;
         document.getElementById('alerta-risco-cardiovascular').textContent = ''; // Removido o alerta fixo
 
@@ -162,6 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Atualizar o gráfico da aba RML (seção RML dentro das abas)
         atualizarGraficoDonutModal('composicaoCorporalChart-tab', massaGorda, percentualGordura); // Usar função Donut aqui
+
+        // Mostrar a seção de resultados (caso esteja escondida)
+        document.getElementById('resultados').style.display = 'block';
     }
 
     function atualizarGraficoDonutModal(canvasId, massaGorda, percentualGordura) {
@@ -265,14 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return ((4.95 / densidadeCorporal) - 4.5) * 100;
     }
 
-    exportarPdfButton.addEventListener('click', () => {
-        exportarParaPdf("resultados-avaliacao-completa");
-    });
-
-    exportarPdfFormButton.addEventListener('click', () => {
-        exportarParaPdf("avaliacao-form-content");
-    });
-
     function exportarParaPdf(exportType) {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF('p', 'mm', 'a4');
@@ -301,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (typeof conteudo === 'object' && conteudo !== null) {
                 for (const key in conteudo) {
                     if (conteudo.hasOwnProperty(key)) {
-                        doc.text(`${key}: ${conteudo[key]}`, 25, yPosition);
+                        doc.text(`${key}: ${key}: ${conteudo[key]}`, 25, yPosition); // Correção aqui: repetia "key:"
                         yPosition += 5;
                     }
                 }
@@ -429,6 +432,9 @@ document.addEventListener('DOMContentLoaded', () => {
         atualizarGrafico('composicaoCorporalChart-tab', 0, 0, 0, 0);
 
         showTab('dados-aluno');
+
+        // Esconde a seção de resultados ao limpar os campos
+        document.getElementById('resultados').style.display = 'none';
     });
 
     resultadoAvaliacaoButton.addEventListener('click', () => {
@@ -459,7 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     <div style="text-align: center;">
                         <h3>Risco Cardiovascular</h3>
-                        <p class="result-value">${document.getElementById('abdomen').textContent} <span style="font-size: 1.5rem;">cm</span></p>
+                        <p class="result-value">${document.getElementById('abdomen').value} <span style="font-size: 1.5rem;">cm</span></p>
                         <p class="result-label">Circunferência abdominal</p>
                         <p class="classification" style="color: ${document.getElementById('classificacao-risco-cardiovascular').textContent.includes('Risco aumentado') ? 'red' : 'green'};">${document.getElementById('classificacao-risco-cardiovascular').textContent}</p>
                     </div>
@@ -481,6 +487,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('massa-ossea-modal').textContent = document.getElementById('massa-ossea-tab').textContent;
             }
         });
+
+        // Mostra a seção de resultados (caso esteja escondida)
+        document.getElementById('resultados').style.display = 'block';
     });
 
     tabSaveButtons.forEach(button => {
@@ -517,6 +526,14 @@ document.addEventListener('DOMContentLoaded', () => {
             link.click();
         });
     }
+
+    exportarPdfButton.addEventListener('click', () => {
+        exportarParaPdf("resultados-avaliacao-completa");
+    });
+
+    exportarPdfFormButton.addEventListener('click', () => {
+        exportarParaPdf("avaliacao-form-content");
+    });
 
     function getNomeAba(tabId) {
         switch (tabId) {
